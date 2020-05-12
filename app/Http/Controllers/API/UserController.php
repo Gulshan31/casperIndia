@@ -14,7 +14,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        //return all the users exist     
+        //return all the users exist lymaoIdUtjtwGn3L4kM2
         return Users::paginate(10);
     }
 
@@ -27,6 +27,38 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //
+         if($request->hasfile('file')) 
+        { 
+          $file = $request->file('file');
+          $extension = $file->getClientOriginalExtension(); // getting image extension
+          $filename =time().'.'.$extension;
+          $file->move('uploads/profile_pics/', $filename);
+        }
+        // Create the user
+            Users::create
+                ([
+                'name'              =>strtolower($request->username),
+                'email'             =>'test@gmail.com',
+                'profile_pic'       =>$filename,
+                'about_me'          =>strtolower($request->about_me),
+                'dob'               =>$request->dob,
+                'gender'            =>strtolower($request->gender),
+                'blood_group'       =>$request->blood_group,
+                'nationality'       =>strtolower($request->nationality),
+                'contact'           =>$request->phone_number,
+                'occupation'        =>strtolower($request->occupation),
+                'address_line_one'  =>strtolower($request->address_line_one),
+                'address_line_two'  =>strtolower($request->address_line_two),
+                'country'           =>strtolower($request->country),
+                'state'             =>strtolower($request->state),
+                'city'              =>strtolower($request->city),
+                'zip'               =>$request->zip,
+                'college'           =>strtolower($request->college),
+                'course'            =>strtolower($request->course),
+                'interest'          =>strtolower($request->interest)
+                ]);
+        return ['success'];
+        
     }
 
     /**
